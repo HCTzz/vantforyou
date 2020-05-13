@@ -2,15 +2,14 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 Vue.use(Router);
-
 /* Layout */
-import Layout from '@/layout';
+import home from '@/views/home';
 
 /* Router Modules */
-import componentsRouter from './modules/components';
-import chartsRouter from './modules/charts';
-import tableRouter from './modules/table';
-import nestedRouter from './modules/nested';
+// import componentsRouter from './modules/components';
+// import chartsRouter from './modules/charts';
+// import tableRouter from './modules/table';
+// import nestedRouter from './modules/nested';
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -33,33 +32,8 @@ import nestedRouter from './modules/nested';
   }
  */
 
-/**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
- */
-export const constantRoutes = [{
-        path: '/redirect',
-        component: Layout,
-        hidden: true,
-        children: [{
-            path: '/redirect/:path*',
-            component: () =>
-                import('@/views/redirect/index')
-        }]
-    },
-    {
-        path: '/login',
-        component: () =>
-            import('@/views/login/index'),
-        hidden: true
-    },
-    {
-        path: '/auth-redirect',
-        component: () =>
-            import('@/views/login/auth-redirect'),
-        hidden: true
-    },
+
+export const constantRoutes = [
     {
         path: '/404',
         component: () =>
@@ -74,81 +48,25 @@ export const constantRoutes = [{
     },
     {
         path: '/',
-        component: Layout,
-        redirect: '/dashboard',
+        component: home,
+        redirect: '/home',
         children: [{
-            path: 'dashboard',
+            path: 'home',
             component: () =>
-                import('@/views/dashboard/index'),
-            name: '首页面板',
-            icon: 'dashboard',
-            affix: true
-        }]
+                import('@/views/home/index'),
+            name: '首页',
+        },
+        {
+            path: 'photo',
+            component: () =>
+                import('@/views/photo/index'),
+            name: '首页',
+        },
+        ]
     }
-    // {
-    //     path: '/documentation',
-    //     component: Layout,
-    //     children: [{
-    //         path: 'index',
-    //         component: () =>
-    //             import('@/views/documentation/index'),
-    //         name: '开发文档',
-    //         icon: 'documentation'
-    //     }]
-    // }
 ];
 
-/**
- * asyncRoutes
- * the routes that need to be dynamically loaded based on user roles
- */
-export const asyncRoutes = [{
-        path: '/system',
-        component: Layout,
-        redirect: '/system/page',
-        alwaysShow: true, // will always show the root menu
-        name: '内容管理',
-        icon: 'lock',
-        children: [{
-            path: 'tinymce',
-            component: () => import('@/views/system/log'),
-            name: '文字'
-        },
-        // {
-        //     path: 'page',
-        //     component: () =>
-        //         import('@/views/system/page'),
-        //     name: '权限管理'
-        // },
-        // {
-        //     path: 'file',
-        //     component: () =>
-        //         import('@/views/system/file'),
-        //     name: '文件管理'
-        // },
-        {
-            path: 'img',
-            component: () =>
-                import('@/views/system/img'),
-            name: '相册管理'
-        },
-        {
-            path: 'imgAdd/:pid',
-            hidden: true,
-            component: () =>
-                import('@/views/system/img/add'),
-            name: '相册'
-        },
-        {
-            path: 'disk',
-            component: () =>
-                import('@/views/system/disk'),
-            name: '磁盘管理'
-        }]
-    },
-    // 404 page must be placed at the end !!!
-    { path: '*', redirect: '/404', hidden: true }
-];
+
 
 const createRouter = () =>
     new Router({

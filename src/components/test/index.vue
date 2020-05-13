@@ -7,7 +7,7 @@
 <script>
 
 export default {
-  name: 'Home',
+  name: 'test',
   components: {
    
   },
@@ -15,7 +15,6 @@ export default {
   },
   methods: {
     handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
   }
 }

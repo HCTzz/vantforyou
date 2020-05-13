@@ -1,5 +1,5 @@
 module.exports = {
     title:'Hmc',
-    serverPath: 'http://localhost:8012/'
+    serverPath: 'http://192.168.1.226:8012/'
 }
   
