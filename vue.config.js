@@ -11,7 +11,7 @@ const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 
 module.exports = {
    
-    publicPath: '/',
+    publicPath: '/home',
     outputDir: 'dist',
     assetsDir: 'static',
     lintOnSave: false, //process.env.NODE_ENV === 'development',
@@ -68,9 +68,9 @@ module.exports = {
             .when(process.env.NODE_ENV === 'development',
             config => config.devtool('cheap-source-map')
         )
-        config
-            .plugin('webpack-bundle-analyzer')
-            .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
+        // config
+        .plugin('webpack-bundle-analyzer')
+        .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
                     
         config
             .when(process.env.NODE_ENV !== 'development',

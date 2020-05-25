@@ -9,13 +9,12 @@
       @load="onLoad"
       offset=10
     >
-      <div class='dyncDiv' v-for="(photo) in list" :key='photo.id'>
-        <div class="img-container">
-          <img :key="getImgSrc(photo.fileId)" @click.stop="enterImg(photo.id,photo.name)" style="display: block; width: 100%; height: 100%;object-fit: cover;" class="img"  fit="cover" v-lazy="getImgSrc(photo.fileId)">
+      <div class='dyncDiv' v-for="(photo,index) in list" @click='preview(index)' :key='photo.id'>
+        <div  style="width:100%;height:170px; position: relative; display: inline-block;">
+          <img :key="getImgSrc(photo.fileId)"  style="display: block; width: 100%; height: 100%;object-fit: cover;" class="img"  fit="cover" v-lazy="getImgSrc(photo.fileId)">
         </div>
-        <van-tag class='tag' plain type="warning">{{photo.imgCount}}P</van-tag>
         <div class="descr">
-          <span class="title van-ellipsis">{{photo.name}}</span>
+          <span>HMC</span>
           <span class="date">{{photo.createTime | dateParse}}</span>
         </div>
       </div>    
@@ -25,8 +24,9 @@
 
 <script>
 import {getFileList} from '@/api/photo';
+import { ImagePreview } from 'vant';
 export default {
-  name: 'photo',
+  name: 'pdetail',
   data(){
     return {
       loading:false,
@@ -34,36 +34,36 @@ export default {
       page:1,
       limit:6,
       list:[],
+      imgList:[],
       pages:0,
+      pid:this.$route.params.id,
       defaultImgPath: require('@/assets/img/default.jpg')
     }
   },
   components: {
 
   },
-  activated(){
-    if (!this.$route.meta.isBack) {
-      this.list = [];
-      this.page = 1;
-      this.finished = false;
-      this.getPhotoList();
-    }else{
-      this.$route.meta.isBack = false;
-      return ;
-    }
+  mounted(){
+    this.$route.meta.title = this.$route.params.title;
   },
   methods: {
-    enterImg(id,title){
-      this.$router.push(`/pdetail/${id}/${title}`);
+    preview(index){
+      ImagePreview({
+        closeable:true,
+        closeOnPopstate:true,
+        images:this.imgList,
+        startPosition:index,
+      });
     },
     getPhotoList(){
       this.loading = true;
-      getFileList({pid:0,page:this.page,limit:this.limit}).then(res => {
+      getFileList({pid:this.pid,page:this.page,limit:this.limit}).then(res => {
         this.loading = false;
         this.page += 1 ;
         this.pages = res.data.pages;
         let pList = res.data.list;
         pList.forEach((obj,index) => {
+          this.imgList.push(this.getImgSrc(obj.fileId));
           this.list.push(obj);
         })
         if(this.pages < 2 || this.page > this.pages){
@@ -95,20 +95,15 @@ export default {
   .listpane{
     margin: 5px 5px;
     .dyncDiv{
+      position: relative;
       border: 1px solid #eee;
       padding: 10px;
       margin: 5px;
-      width: 47% ;
-      height: 230px;
+      width: 47%;
+      height: 190px;
       display: inline-block;
       vertical-align: top;
       position: relative;
-      .img-container{
-        width:100%;
-        height:160px; 
-        position: relative; 
-        display: inline-block;
-      }
       @media only screen and (min-width: 1200px) {
         width: 10% ;
         margin: 5px 10px;
@@ -118,39 +113,24 @@ export default {
         margin: 5px;
       }
       @media only screen and (min-width: 768px){
-        width: 24% ;
+        width: 25% ;
         margin: 5px;
-        height: 252px;
-        .img-container{
-          height:190px; 
-        }
       }
       @media only screen and (max-width: 768px){
         width: 47% ;
         margin: 5px;
       }
       .descr{
-        border-top: 1px solid #eee;
-        height: 10px;
-        line-height: 10px;
-        text-align: left;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        color: rgba(255, 151, 106, 0.5490196078431373);
+        font-size: 12px;
         span{
           display: block;
-          font-size: .8rem;
         }
-        span:nth-child(1){
-          height: 36px;
-          line-height: 36px;
-        }
-        span:nth-child(2){
-          color: #ccc;
-        }
-      }
-      .tag{
-        position:absolute;
-        right: 18px;
-        top:20px;
-        font-size: .8rem;
       }
     }
   }

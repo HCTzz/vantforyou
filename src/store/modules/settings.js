@@ -1,13 +1,17 @@
 import defaultSettings from '@/settings'
 
-const { serverPath } = defaultSettings
+const { serverPath ,homePath,managePath} = defaultSettings
 
 const state = {
-  serverPath: serverPath
+  serverPath: serverPath,
+  homePath : homePath,
+  tabbar:true,
+  title:'',
+  managePath:managePath,
 }
 
 const mutations = {
-  CHANGE_SETTING: (state, { key, value }) => {
+  CHANGE_SETTING: (state, {key,value}) => {
     if (state.hasOwnProperty(key)) {
       state[key] = value
     }

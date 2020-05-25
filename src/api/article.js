@@ -10,7 +10,7 @@ export function fetchList(query) {
 
 export function fetchArticle(id) {
   return request({
-    url: '/vlog/detail',
+    url: '/vlog/getVlog',
     method: 'get',
     params: { id }
   })

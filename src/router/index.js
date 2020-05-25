@@ -55,12 +55,88 @@ export const constantRoutes = [
             component: () =>
                 import('@/views/home/index'),
             name: '首页',
+            meta:{
+                tabbar:true,
+                active:0,
+            }
         },
         {
             path: 'photo',
             component: () =>
                 import('@/views/photo/index'),
-            name: '首页',
+            name: '相册',
+            meta:{
+                major:true,
+                active:1,
+                tabbar:true,
+                title:'相册',
+                keepAlive:true
+            }
+        },
+        {
+            path: '/pdetail/:id/:title',
+            component: () =>
+                import('@/views/photo/detail'),
+            name: '相册详情',
+            meta:{
+                major:false,
+                active:1,
+                title:'',
+                tabbar:false,
+                keepAlive:false
+            }
+        },
+
+        {
+            path: 'vlog',
+            component: () =>
+                import('@/views/vlog/index'),
+            name: '文字',
+            meta:{
+                major:true,
+                active:0,
+                tabbar:true,
+                title:'成长笔记',
+                keepAlive:true
+            }
+        },
+        {
+            path: '/vdetail/:id',
+            component: () =>
+                import('@/views/vlog/detail'),
+            name: '详情',
+            meta:{
+                major:false,
+                active:0,
+                tabbar:false,
+                title:'笔记详情',
+                keepAlive:false
+            }
+        },
+        {
+            path: '/logTimeLine',
+            component: () =>
+                import('@/views/vlog/timeLine'),
+            name: '成长轨迹',
+            meta:{
+                major:false,
+                active:0,
+                tabbar:false,
+                title:'成长轨迹'
+            }
+        },
+        {
+            path: 'video',
+            component: () =>
+                import('@/views/video/index'),
+            name: '视频',
+            meta:{
+                major:true,
+                active:2,
+                tabbar:true,
+                title:'视频',
+                keepAlive:true
+            }
         },
         ]
     }

@@ -20,7 +20,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(
     config => {
-        return config
+        return config;
     },
     error => {
         // do something with request error
